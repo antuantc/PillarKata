@@ -11,19 +11,26 @@
 
     public class VendingMachine
     {
+        private int totalValue;
+        private int invalidValue;
+
         public VendingMachine()
         {
+            totalValue = 0;
+            invalidValue = 0;
         }
 
         public bool InsertCoin(Coin coin)
         {
-            if (coin.Equals(Coin.Penny))
+            if (coin.Equals(Coin.Nickle) || coin.Equals(Coin.Dime) || coin.Equals(Coin.Quarter))
             {
-                return false;
+                totalValue += (int)coin;
+                return true;
             }
             else
             {
-                return true;
+                invalidValue += (int)coin;
+                return false;
             }
         }
     }

@@ -8,3 +8,4 @@ C:\Users\tuan.cao\Source\Repos\PillarKata\VendingMachine\obj\Debug\netcoreapp2.0
 C:\Users\tuan.cao\Source\Repos\PillarKata\VendingMachine\obj\Debug\netcoreapp2.0\VendingMachines.AssemblyInfo.cs
 C:\Users\tuan.cao\Source\Repos\PillarKata\VendingMachine\obj\Debug\netcoreapp2.0\VendingMachines.dll
 C:\Users\tuan.cao\Source\Repos\PillarKata\VendingMachine\obj\Debug\netcoreapp2.0\VendingMachines.pdb
+C:\Users\tuan.cao\Source\Repos\PillarKata\VendingMachine\obj\Debug\netcoreapp2.0\VendingMachines.csprojResolveAssemblyReference.cache
