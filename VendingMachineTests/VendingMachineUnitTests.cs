@@ -24,7 +24,7 @@ namespace VendingMachineTests
             var accept = _vending.InsertCoin(coin);
 
             //assert
-            Assert.Equal(true, accept);
+            Assert.True(accept);
         }
 
         [Fact]
@@ -37,7 +37,7 @@ namespace VendingMachineTests
             var accept = _vending.InsertCoin(coin);
 
             //assert
-            Assert.Equal(false, accept);
+            Assert.False(accept);
         }
 
         [Fact]
@@ -52,7 +52,7 @@ namespace VendingMachineTests
             var accept = _vending.InsertCoin(coin1) && _vending.InsertCoin(coin2) && _vending.InsertCoin(coin3);
 
             //assert
-            Assert.Equal(true, accept);
+            Assert.True(accept);
         }
 
         [Theory]
@@ -70,6 +70,21 @@ namespace VendingMachineTests
         public void ReturnFalseGivenInValidCoins(Coin coin)
         {
             Assert.False(_vending.InsertCoin(coin));
+        }
+
+        [Fact]
+        public void Insert75CentTotal()
+        {
+            //arrrange
+            _vending = new VendingMachine();
+
+            //act
+            _vending.InsertCoin(Coin.Quarter);
+            _vending.InsertCoin(Coin.Quarter);
+            _vending.InsertCoin(Coin.Quarter);
+
+            //assert
+            Assert.Equal(75, _vending.totalValue);
         }
     }
 }

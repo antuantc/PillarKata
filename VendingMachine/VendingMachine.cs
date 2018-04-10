@@ -11,25 +11,33 @@
 
     public class VendingMachine
     {
-        private int totalValue;
-        private int invalidValue;
+        private int _totalValue;
+        private int _invalidValue;
 
         public VendingMachine()
         {
-            totalValue = 0;
-            invalidValue = 0;
+            _totalValue = 0;
+            _invalidValue = 0;
+        }
+
+        public int totalValue
+        {
+            get
+            {
+                return _totalValue;
+            }
         }
 
         public bool InsertCoin(Coin coin)
         {
             if (coin.Equals(Coin.Nickle) || coin.Equals(Coin.Dime) || coin.Equals(Coin.Quarter))
             {
-                totalValue += (int)coin;
+                _totalValue += (int)coin;
                 return true;
             }
             else
             {
-                invalidValue += (int)coin;
+                _invalidValue += (int)coin;
                 return false;
             }
         }
