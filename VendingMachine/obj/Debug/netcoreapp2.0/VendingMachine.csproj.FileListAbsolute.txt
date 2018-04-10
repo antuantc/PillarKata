@@ -1,0 +1,11 @@
+C:\Users\tuan.cao\Source\Repos\PillarKata\VendingMachine\bin\Debug\netcoreapp2.0\VendingMachine.deps.json
+C:\Users\tuan.cao\Source\Repos\PillarKata\VendingMachine\bin\Debug\netcoreapp2.0\VendingMachine.runtimeconfig.json
+C:\Users\tuan.cao\Source\Repos\PillarKata\VendingMachine\bin\Debug\netcoreapp2.0\VendingMachine.runtimeconfig.dev.json
+C:\Users\tuan.cao\Source\Repos\PillarKata\VendingMachine\bin\Debug\netcoreapp2.0\VendingMachine.dll
+C:\Users\tuan.cao\Source\Repos\PillarKata\VendingMachine\bin\Debug\netcoreapp2.0\VendingMachine.pdb
+C:\Users\tuan.cao\Source\Repos\PillarKata\VendingMachine\obj\Debug\netcoreapp2.0\VendingMachine.csproj.CoreCompileInputs.cache
+C:\Users\tuan.cao\Source\Repos\PillarKata\VendingMachine\obj\Debug\netcoreapp2.0\VendingMachine.AssemblyInfoInputs.cache
+C:\Users\tuan.cao\Source\Repos\PillarKata\VendingMachine\obj\Debug\netcoreapp2.0\VendingMachine.AssemblyInfo.cs
+C:\Users\tuan.cao\Source\Repos\PillarKata\VendingMachine\obj\Debug\netcoreapp2.0\VendingMachine.dll
+C:\Users\tuan.cao\Source\Repos\PillarKata\VendingMachine\obj\Debug\netcoreapp2.0\VendingMachine.pdb
+C:\Users\tuan.cao\Source\Repos\PillarKata\VendingMachine\obj\Debug\netcoreapp2.0\VendingMachine.csprojResolveAssemblyReference.cache
