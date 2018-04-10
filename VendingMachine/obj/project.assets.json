@@ -669,10 +669,13 @@
   },
   "project": {
     "version": "1.0.0",
+    "restoreSettings": {
+      "hideWarningsAndErrors": true
+    },
     "restore": {
-      "projectUniqueName": "C:\\Users\\tuan.cao\\Source\\Repos\\PillarKata\\VendingMachine\\VendingMachine.csproj",
-      "projectName": "VendingMachine",
-      "projectPath": "C:\\Users\\tuan.cao\\Source\\Repos\\PillarKata\\VendingMachine\\VendingMachine.csproj",
+      "projectUniqueName": "C:\\Users\\tuan.cao\\Source\\Repos\\PillarKata\\VendingMachine\\VendingMachines.csproj",
+      "projectName": "VendingMachines",
+      "projectPath": "C:\\Users\\tuan.cao\\Source\\Repos\\PillarKata\\VendingMachine\\VendingMachines.csproj",
       "packagesPath": "C:\\Users\\tuan.cao\\.nuget\\packages\\",
       "outputPath": "C:\\Users\\tuan.cao\\Source\\Repos\\PillarKata\\VendingMachine\\obj\\",
       "projectStyle": "PackageReference",

@@ -1659,6 +1659,19 @@
         "build": {
           "build/netcoreapp1.0/xunit.runner.visualstudio.props": {}
         }
+      },
+      "VendingMachines/1.0.0": {
+        "type": "project",
+        "framework": ".NETCoreApp,Version=v2.0",
+        "dependencies": {
+          "Microsoft.NETCore.App": "2.0.0"
+        },
+        "compile": {
+          "bin/placeholder/VendingMachines.dll": {}
+        },
+        "runtime": {
+          "bin/placeholder/VendingMachines.dll": {}
+        }
       }
     }
   },
@@ -5604,12 +5617,18 @@
         "xunit.runner.visualstudio.2.2.0.nupkg.sha512",
         "xunit.runner.visualstudio.nuspec"
       ]
+    },
+    "VendingMachines/1.0.0": {
+      "type": "project",
+      "path": "../VendingMachine/VendingMachines.csproj",
+      "msbuildProject": "../VendingMachine/VendingMachines.csproj"
     }
   },
   "projectFileDependencyGroups": {
     ".NETCoreApp,Version=v2.0": [
       "Microsoft.NET.Test.Sdk >= 15.3.0-preview-20170628-02",
       "Microsoft.NETCore.App >= 2.0.0",
+      "VendingMachines >= 1.0.0",
       "xunit >= 2.2.0",
       "xunit.runner.visualstudio >= 2.2.0"
     ]
@@ -5647,7 +5666,11 @@
       },
       "frameworks": {
         "netcoreapp2.0": {
-          "projectReferences": {}
+          "projectReferences": {
+            "C:\\Users\\tuan.cao\\Source\\Repos\\PillarKata\\VendingMachine\\VendingMachines.csproj": {
+              "projectPath": "C:\\Users\\tuan.cao\\Source\\Repos\\PillarKata\\VendingMachine\\VendingMachines.csproj"
+            }
+          }
         }
       },
       "warningProperties": {

@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace VendingMachine
+namespace VendingMachines
 {
     class Program
     {
