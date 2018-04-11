@@ -113,6 +113,17 @@
             {
                 _display = CONST_INSERTCOIN;
             }
+            else if (_previousDisplay.Equals("PRICE " + ((int)_selectedProduct / 100m).ToString("C2")))
+            {
+                if(_totalValue > 0)
+                {
+                    _display = (_totalValue / 100m).ToString("C2");
+                }
+                else
+                {
+                    _display = CONST_INSERTCOIN;
+                }
+            }
         }
     }
 }

@@ -95,7 +95,7 @@ namespace VendingMachineTests
             //act
 
             //assert
-            Assert.Equal("INSERT COIN", _vending.display);
+            Assert.Equal(VendingMachine.CONST_INSERTCOIN, _vending.display);
         }
 
         [Theory]
@@ -179,10 +179,37 @@ namespace VendingMachineTests
             _vending.InsertCoin(Coin.Quarter);
             _vending.InsertCoin(Coin.Quarter);
             _vending.InsertCoin(Coin.Quarter);
-            var select = _vending.SelectProduct(Product.Cola);
+            _vending.SelectProduct(Product.Cola);
 
             //assert
-            Assert.Equal("THANK YOU", _vending.display);
+            Assert.Equal(VendingMachine.CONST_THANKYOU, _vending.display);
+        }
+
+        [Fact]
+        public void SelectACokeWithNoMoney_DisplaysInsertCoin()
+        {
+            //arrrange
+
+            //act
+            _vending.SelectProduct(Product.Cola);
+            _vending.CheckDisplay();
+
+            //assert
+            Assert.Equal(VendingMachine.CONST_INSERTCOIN, _vending.display);
+        }
+
+        [Fact]
+        public void SelectACokeWithNotEnoughMoney_DisplaysCurrentAmount()
+        {
+            //arrrange
+
+            //act
+            _vending.InsertCoin(Coin.Quarter);
+            var select = _vending.SelectProduct(Product.Cola);
+            _vending.CheckDisplay();
+
+            //assert
+            Assert.Equal(((int)Coin.Quarter / 100m).ToString("C2"), _vending.display);
         }
     }
 }
