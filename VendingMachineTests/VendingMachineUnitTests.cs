@@ -1,6 +1,7 @@
 using System;
 using Xunit;
 using VendingMachines;
+using System.Collections.Generic;
 
 
 namespace VendingMachineTests
@@ -85,6 +86,38 @@ namespace VendingMachineTests
 
             //assert
             Assert.Equal(75, _vending.totalValue);
+        }
+
+        [Fact]
+        public void DisplayInsertCoin()
+        {
+            //arrrange
+            _vending = new VendingMachine();
+
+            //act
+
+            //assert
+            Assert.Equal("INSERT COIN", _vending.display);
+        }
+
+        [Theory]
+        [InlineData(new Coin[] { Coin.Dime, Coin.Nickle })]
+        [InlineData(new Coin[] { Coin.Dime, Coin.Nickle, Coin.Quarter })]
+        public void DisplayTotalInsertedCoins(Coin [] coins)
+        {
+            //arrrange
+            _vending = new VendingMachine();
+            int total = 0;
+
+            //act
+            foreach(Coin coin in coins)
+            {
+                _vending.InsertCoin(coin);
+                total += (int)coin;
+            }
+
+            //assert
+            Assert.Equal((total / 100m).ToString("C2"),_vending.display);
         }
     }
 }
