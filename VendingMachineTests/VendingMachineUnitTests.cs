@@ -311,5 +311,25 @@ namespace VendingMachineTests
             //assert
             Assert.Equal(total, _vending.coinReturnValue);
         }
+
+        [Fact]
+        public void SelectSoldOutProduct_DisplaysSoldOut()
+        {
+            //arrrange
+
+            //act
+            for (int i = 0; i < 30; i++)
+            {
+                _vending.InsertCoin(Coin.Quarter);
+            }
+
+            for (int i = 0; i < 6; i++)
+            {
+                _vending.SelectProduct(Product.Candy);
+            }
+
+            //assert
+            Assert.Equal(VendingMachine.CONST_SOLDOUT, _vending.display);
+        }
     }
 }
