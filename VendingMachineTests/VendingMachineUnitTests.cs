@@ -129,6 +129,18 @@ namespace VendingMachineTests
             Assert.Equal("Cola", _vending.selectedProduct.ToString());
         }
 
+        [Theory]
+        [InlineData(Product.None)]
+        [InlineData(Product.Cola)]
+        [InlineData(Product.Candy)]
+        [InlineData(Product.Chips)]
+        public void SelectAProduct(Product product)
+        {
+            _vending.SelectProduct(product);
+
+            Assert.Equal(product, _vending.selectedProduct);
+        }
+
         [Fact]
         public void SelectACokeWithNotEnoughMoney_ReturnsFalse()
         {
@@ -205,11 +217,51 @@ namespace VendingMachineTests
 
             //act
             _vending.InsertCoin(Coin.Quarter);
-            var select = _vending.SelectProduct(Product.Cola);
+            _vending.SelectProduct(Product.Cola);
             _vending.CheckDisplay();
 
             //assert
             Assert.Equal(((int)Coin.Quarter / 100m).ToString("C2"), _vending.display);
+        }
+
+        [Fact]
+        public void SelectAChipsWithMoreThanEnoughMoney_MakeCorrectChange()
+        {
+            //arrrange
+
+            //act
+            _vending.InsertCoin(Coin.Quarter);
+            _vending.InsertCoin(Coin.Quarter);
+            _vending.InsertCoin(Coin.Quarter);
+            _vending.SelectProduct(Product.Chips);
+
+            //assert
+            Assert.Equal((int)Coin.Quarter, _vending.coinReturnValue);
+        }
+
+        [Theory]
+        [InlineData(new Coin[] { Coin.Quarter, Coin.Quarter, Coin.Quarter }, Product.Candy)]
+        [InlineData(new Coin[] { Coin.Quarter, Coin.Quarter, Coin.Quarter }, Product.Chips)]
+        [InlineData(new Coin[] { Coin.Quarter, Coin.Quarter, Coin.Quarter, Coin.Quarter, Coin.Nickle }, Product.Candy)]
+        public void MakeCorrectChange(Coin [] coins, Product product)
+        {
+            //arrrange
+            int total = 0;
+            int change = 0;
+
+            //act
+            foreach(Coin coin in coins)
+            {
+                _vending.InsertCoin(coin);
+                total += (int)coin;
+            }
+
+            _vending.SelectProduct(product);
+
+            change = total - (int)product;
+
+            //assert
+            Assert.Equal(change, _vending.coinReturnValue);
         }
     }
 }
