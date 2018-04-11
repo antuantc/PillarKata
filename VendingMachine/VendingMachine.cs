@@ -130,5 +130,12 @@
                 }
             }
         }
+
+        public void ReturnCoins()
+        {
+            _coinReturnValue = _totalValue;
+            _totalValue = 0;
+            _display = CONST_INSERTCOIN;
+        }
     }
 }

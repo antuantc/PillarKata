@@ -263,5 +263,53 @@ namespace VendingMachineTests
             //assert
             Assert.Equal(change, _vending.coinReturnValue);
         }
+
+        [Fact]
+        public void InsertAQuarterAndReturnTheQuarter()
+        {
+            //arrrange
+
+            //act
+            _vending.InsertCoin(Coin.Quarter);
+            _vending.ReturnCoins();
+
+            //assert
+            Assert.Equal(25, _vending.coinReturnValue);
+        }
+
+        [Fact]
+        public void InsertAQuarterAndReturnTheQuarter_DisplaysInsertCoin()
+        {
+            //arrrange
+
+            //act
+            _vending.InsertCoin(Coin.Quarter);
+            _vending.ReturnCoins();
+
+            //assert
+            Assert.Equal(VendingMachine.CONST_INSERTCOIN, _vending.display);
+        }
+
+        [Theory]
+        [InlineData(new Coin[] { Coin.Quarter })]
+        [InlineData(new Coin[] { Coin.Quarter, Coin.Dime })]
+        [InlineData(new Coin[] { Coin.Quarter, Coin.Quarter, Coin.Nickle })]
+        [InlineData(new Coin[] { Coin.Quarter, Coin.Quarter, Coin.Quarter })]
+        public void InsertCoinsAndReturnTheCoins(Coin [] coins)
+        {
+            //arrrange
+            int total = 0;
+
+            //act
+            foreach (Coin coin in coins)
+            {
+                _vending.InsertCoin(coin);
+                total += (int)coin;
+            }
+            _vending.ReturnCoins();
+
+            //assert
+            Assert.Equal(total, _vending.coinReturnValue);
+        }
     }
 }
