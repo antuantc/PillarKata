@@ -77,7 +77,6 @@ namespace VendingMachineTests
         public void Insert75CentTotal()
         {
             //arrrange
-            _vending = new VendingMachine();
 
             //act
             _vending.InsertCoin(Coin.Quarter);
@@ -92,7 +91,6 @@ namespace VendingMachineTests
         public void DisplayInsertCoin()
         {
             //arrrange
-            _vending = new VendingMachine();
 
             //act
 
@@ -106,7 +104,6 @@ namespace VendingMachineTests
         public void DisplayTotalInsertedCoins(Coin [] coins)
         {
             //arrrange
-            _vending = new VendingMachine();
             int total = 0;
 
             //act
@@ -118,6 +115,74 @@ namespace VendingMachineTests
 
             //assert
             Assert.Equal((total / 100m).ToString("C2"),_vending.display);
+        }
+
+        [Fact]
+        public void SelectACoke()
+        {
+            //arrrange
+
+            //act
+            _vending.SelectProduct(Product.Cola);
+
+            //assert
+            Assert.Equal("Cola", _vending.selectedProduct.ToString());
+        }
+
+        [Fact]
+        public void SelectACokeWithNotEnoughMoney_ReturnsFalse()
+        {
+            //arrrange
+
+            //act
+            var select = _vending.SelectProduct(Product.Cola);
+
+            //assert
+            Assert.False(select);
+        }
+
+        [Fact]
+        public void SelectACokeWithNotEnoughMoney_DisplaysPrice()
+        {
+            //arrrange
+
+            //act
+            var select = _vending.SelectProduct(Product.Cola);
+
+            //assert
+            Assert.Equal("PRICE " + ((int)Product.Cola / 100m).ToString("C2"), _vending.display);
+        }
+
+        [Fact]
+        public void SelectACokeWithEnoughMoney_ReturnsTrue()
+        {
+            //arrrange
+
+            //act
+            _vending.InsertCoin(Coin.Quarter);
+            _vending.InsertCoin(Coin.Quarter);
+            _vending.InsertCoin(Coin.Quarter);
+            _vending.InsertCoin(Coin.Quarter);
+            var select = _vending.SelectProduct(Product.Cola);
+
+            //assert
+            Assert.True(select);
+        }
+
+        [Fact]
+        public void SelectACokeWithEnoughMoney_DisplaysThankYou()
+        {
+            //arrrange
+
+            //act
+            _vending.InsertCoin(Coin.Quarter);
+            _vending.InsertCoin(Coin.Quarter);
+            _vending.InsertCoin(Coin.Quarter);
+            _vending.InsertCoin(Coin.Quarter);
+            var select = _vending.SelectProduct(Product.Cola);
+
+            //assert
+            Assert.Equal("THANK YOU", _vending.display);
         }
     }
 }
