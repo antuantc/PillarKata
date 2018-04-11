@@ -70,6 +70,7 @@
 
         public bool InsertCoin(Coin coin)
         {
+            //Valid coins
             if (coin.Equals(Coin.Nickle) || coin.Equals(Coin.Dime) || coin.Equals(Coin.Quarter))
             {
                 _totalValue += (int)coin;
@@ -77,6 +78,7 @@
                 _previousDisplay = _display;
                 return true;
             }
+            //Invalid coins
             else
             {
                 _coinReturnValue += (int)coin;
@@ -89,6 +91,7 @@
             int price = (int)product;
             _selectedProduct = product;
 
+            //Enough money for selected product
             if (_totalValue >= price)
             {
                 _coinReturnValue = _totalValue - price;
@@ -97,6 +100,7 @@
                 _previousDisplay = _display;
                 return true;
             }
+            //Not enough money for selected product
             else
             {
                 _display = "PRICE " + (price / 100m).ToString("C2");
@@ -113,6 +117,7 @@
             {
                 _display = CONST_INSERTCOIN;
             }
+            //Previous display was the price of the selected item
             else if (_previousDisplay.Equals("PRICE " + ((int)_selectedProduct / 100m).ToString("C2")))
             {
                 if(_totalValue > 0)
@@ -124,6 +129,13 @@
                     _display = CONST_INSERTCOIN;
                 }
             }
+        }
+
+        public void ReturnCoins()
+        {
+            _coinReturnValue = _totalValue;
+            _totalValue = 0;
+            _display = CONST_INSERTCOIN;
         }
     }
 }
