@@ -108,8 +108,7 @@ namespace VendingMachines
                 {
                     if (_productStock[product] > 0)
                     {
-                        _coinReturnValue = _totalValue - price;
-                        _totalValue = 0;
+                        _totalValue = _totalValue - price;
                         _display = CONST_THANKYOU;
                         _previousDisplay = _display;
                         _productStock[product] = _productStock[product] - 1;
@@ -118,6 +117,7 @@ namespace VendingMachines
                     else
                     {
                         _display = CONST_SOLDOUT;
+                        _previousDisplay = _display;
                         return false;
                     }
                 }
@@ -142,6 +142,7 @@ namespace VendingMachines
                 _previousDisplay.Equals(CONST_THANKYOU))
             {
                 _display = CONST_INSERTCOIN;
+                _previousDisplay = _display;
             }
             //Previous display was the price of the selected item
             else if (_previousDisplay.Equals("PRICE " + ((int)_selectedProduct / 100m).ToString("C2")) ||
@@ -150,10 +151,12 @@ namespace VendingMachines
                 if(_totalValue > 0)
                 {
                     _display = (_totalValue / 100m).ToString("C2");
+                    _previousDisplay = _display;
                 }
                 else
                 {
                     _display = CONST_INSERTCOIN;
+                    _previousDisplay = _display;
                 }
             }
         }
@@ -163,6 +166,7 @@ namespace VendingMachines
             _coinReturnValue = _totalValue;
             _totalValue = 0;
             _display = CONST_INSERTCOIN;
+            _previousDisplay = _display;
         }
     }
 }

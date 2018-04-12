@@ -234,6 +234,7 @@ namespace VendingMachineTests
             _vending.InsertCoin(Coin.Quarter);
             _vending.InsertCoin(Coin.Quarter);
             _vending.SelectProduct(Product.Chips);
+            _vending.ReturnCoins();
 
             //assert
             Assert.Equal((int)Coin.Quarter, _vending.coinReturnValue);
@@ -257,6 +258,7 @@ namespace VendingMachineTests
             }
 
             _vending.SelectProduct(product);
+            _vending.ReturnCoins();
 
             change = total - (int)product;
 
@@ -330,6 +332,28 @@ namespace VendingMachineTests
 
             //assert
             Assert.Equal(VendingMachine.CONST_SOLDOUT, _vending.display);
+        }
+
+        [Fact]
+        public void SelectSoldOutProductCheckDisplayAgain_DisplaysTotal()
+        {
+            //arrrange
+
+            //act
+            for (int i = 0; i < 30; i++)
+            {
+                _vending.InsertCoin(Coin.Quarter);
+            }
+
+            for (int i = 0; i < 6; i++)
+            {
+                _vending.SelectProduct(Product.Candy);
+            }
+
+            _vending.CheckDisplay();
+
+            //assert
+            Assert.Equal((_vending.totalValue / 100m).ToString("C2"), _vending.display);
         }
     }
 }
