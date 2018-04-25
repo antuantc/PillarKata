@@ -673,11 +673,11 @@
       "hideWarningsAndErrors": true
     },
     "restore": {
-      "projectUniqueName": "C:\\Users\\tuan.cao\\Source\\Repos\\PillarKata\\VendingMachine\\VendingMachinesXXX.csproj",
-      "projectName": "VendingMachinesXXX",
-      "projectPath": "C:\\Users\\tuan.cao\\Source\\Repos\\PillarKata\\VendingMachine\\VendingMachinesXXX.csproj",
+      "projectUniqueName": "C:\\Users\\tuan.cao\\Source\\Repos\\PillarKata\\VendingMachines\\VendingMachines.csproj",
+      "projectName": "VendingMachines",
+      "projectPath": "C:\\Users\\tuan.cao\\Source\\Repos\\PillarKata\\VendingMachines\\VendingMachines.csproj",
       "packagesPath": "C:\\Users\\tuan.cao\\.nuget\\packages\\",
-      "outputPath": "C:\\Users\\tuan.cao\\Source\\Repos\\PillarKata\\VendingMachine\\obj\\",
+      "outputPath": "C:\\Users\\tuan.cao\\Source\\Repos\\PillarKata\\VendingMachines\\obj\\",
       "projectStyle": "PackageReference",
       "fallbackFolders": [
         "C:\\Program Files\\dotnet\\sdk\\NuGetFallbackFolder"
@@ -709,6 +709,7 @@
       "netcoreapp2.0": {
         "dependencies": {
           "Microsoft.NETCore.App": {
+            "suppressParent": "All",
             "target": "Package",
             "version": "2.0.0",
             "autoReferenced": true

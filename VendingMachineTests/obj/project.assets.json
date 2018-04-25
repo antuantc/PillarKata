@@ -1663,9 +1663,6 @@
       "VendingMachines/1.0.0": {
         "type": "project",
         "framework": ".NETCoreApp,Version=v2.0",
-        "dependencies": {
-          "Microsoft.NETCore.App": "2.0.0"
-        },
         "compile": {
           "bin/placeholder/VendingMachines.dll": {}
         },
@@ -5620,8 +5617,8 @@
     },
     "VendingMachines/1.0.0": {
       "type": "project",
-      "path": "../VendingMachine/VendingMachines.csproj",
-      "msbuildProject": "../VendingMachine/VendingMachines.csproj"
+      "path": "../VendingMachines/VendingMachines.csproj",
+      "msbuildProject": "../VendingMachines/VendingMachines.csproj"
     }
   },
   "projectFileDependencyGroups": {
@@ -5667,8 +5664,8 @@
       "frameworks": {
         "netcoreapp2.0": {
           "projectReferences": {
-            "C:\\Users\\tuan.cao\\Source\\Repos\\PillarKata\\VendingMachine\\VendingMachines.csproj": {
-              "projectPath": "C:\\Users\\tuan.cao\\Source\\Repos\\PillarKata\\VendingMachine\\VendingMachines.csproj"
+            "C:\\Users\\tuan.cao\\Source\\Repos\\PillarKata\\VendingMachines\\VendingMachines.csproj": {
+              "projectPath": "C:\\Users\\tuan.cao\\Source\\Repos\\PillarKata\\VendingMachines\\VendingMachines.csproj"
             }
           }
         }

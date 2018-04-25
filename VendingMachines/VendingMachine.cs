@@ -32,6 +32,9 @@ namespace VendingMachines
         private Product _selectedProduct;
         private Dictionary<Product, int> _productStock;
 
+        //static void Main(string[] args)
+        //{}
+
         public VendingMachine()
         {
             _totalValue = 0;
