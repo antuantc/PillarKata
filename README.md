@@ -10,3 +10,6 @@ dotnet new console -n VendingMachines
 dotnet new xunit -n VendingMachineTests
 
 Then I added the two projects to the solution through visual studio 2017.
+
+I build the project using visual studio 2017.
+Open Test Explorer and click 'Run All' to run all tests.
