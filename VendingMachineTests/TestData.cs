@@ -45,7 +45,7 @@ namespace VendingMachineTests
                 _quarter,
                 _quarter,
                 _quarter,
-                Product.Candy
+                VendingMachine.CANDY
             };
         }
 
