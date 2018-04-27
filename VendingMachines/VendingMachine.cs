@@ -1,75 +1,26 @@
-﻿using System.Collections.Generic;
-using System.Linq;
-
+﻿
 namespace VendingMachines
 {
-    //public enum Product
-    //{
-    //    None = 0,
-    //    Cola = 100,
-    //    Chips = 50,
-    //    Candy = 65
-    //}
-
     public class VendingMachine
     {
         public const string THANKYOU = "THANK YOU";
         public const string INSERTCOIN = "INSERT COIN";
         public const string SOLDOUT = "SOLD OUT";
-        public const string COLA = "Cola";
-        public const string CHIPS = "Chips";
-        public const string CANDY = "Candy";
-
-        private static Coin _penny = new Coin();
-        private static Coin _nickel = new Coin(5.0, 21.21);
-        private static Coin _dime = new Coin(2.268, 17.91);
-        private static Coin _quarter = new Coin(5.67, 24.26);
-        private static Coin _halfDollar = new Coin(11.34, 30.61);
-        private static Coin _dollar = new Coin(8.1, 26.49);
 
         private decimal _totalValue;
-        private List<Coin> _coinBank;
-        private List<Coin> _returnedCoins;
         private Product _selectedProduct;
-        private List<Product> _productInStock;
         private string _previousDisplay;
         private string _display;
-        
-        //private Dictionary<Product, int> _productStock;
-
+        private CoinControl _coinControl;
+        private ProductControl _productControl;
+       
         public VendingMachine()
         {
             _totalValue = 0;
-            _coinBank = new List<Coin>();
-            _returnedCoins = new List<Coin>();
             _display = INSERTCOIN;
             _selectedProduct = null;
-            _productInStock = new List<Product>();
-
-            //Initialize product in stock
-            _productInStock.Add(new Product(CANDY, 5, .65m));
-            _productInStock.Add(new Product(COLA, 5, 1m));
-            _productInStock.Add(new Product(CHIPS, 5, .5m));
-
-            //Initialize coin bank
-            _coinBank.Add(_nickel);
-            _coinBank.Add(_nickel);
-            _coinBank.Add(_nickel);
-            _coinBank.Add(_nickel);
-            _coinBank.Add(_nickel);
-            _coinBank.Add(_nickel);
-            _coinBank.Add(_nickel);
-            _coinBank.Add(_nickel);
-            _coinBank.Add(_nickel);
-            _coinBank.Add(_dime);
-            _coinBank.Add(_dime);
-            _coinBank.Add(_dime);
-            _coinBank.Add(_dime);
-            _coinBank.Add(_dime);
-            _coinBank.Add(_quarter);
-            _coinBank.Add(_quarter);
-            _coinBank.Add(_quarter);
-            _coinBank.Add(_quarter);
+            _coinControl = new CoinControl();
+            _productControl = new ProductControl();
         }
 
         public decimal totalValue
@@ -80,21 +31,11 @@ namespace VendingMachines
             }
         }
 
-        public decimal coinListValue(List<Coin> coins)
-        {
-            decimal total = 0;
-            foreach (Coin coin in coins)
-            {
-                total += coin.coinValue;
-            }
-            return total;
-        }
-
         public decimal coinBankTotalValue
         {
             get
             {
-                return coinListValue(_coinBank);
+                return _coinControl.coinBankTotalValue;
             }
         }
 
@@ -102,7 +43,7 @@ namespace VendingMachines
         {
             get
             {
-                return coinListValue(_returnedCoins);
+                return _coinControl.returnTotalValue;
             }
         }
 
@@ -156,7 +97,7 @@ namespace VendingMachines
         {
             if (IsValidProduct(prod))
             {
-                _productInStock.Add(prod);
+                _productControl.AddProduct(prod);
                 return true;
             }
             else
@@ -175,7 +116,7 @@ namespace VendingMachines
         {
             if (IsValidCoin(coin))
             {
-                _coinBank.Add(coin);
+                _coinControl.AddCoin(coin);
                 _totalValue += coin.coinValue;
                 _display = (_totalValue).ToString("C2");
                 _previousDisplay = _display;
@@ -183,14 +124,13 @@ namespace VendingMachines
             }
             else
             {
-                _returnedCoins.Add(coin);
                 return false;
             }
         }
 
         public bool SelectProduct(string product)
         {
-            var prod = _productInStock.Find(x => x.name.Equals(product));
+            var prod = _productControl.productInStock.Find(x => x.name.Equals(product));
             if (prod != null)
             {
                 _selectedProduct = prod;
@@ -251,30 +191,10 @@ namespace VendingMachines
 
         public void ReturnCoins()
         {
-            _returnedCoins = MakeChange(ref _coinBank, _totalValue);
+            _coinControl.ReturnCoins(_totalValue);
             _totalValue = 0;
             _display = INSERTCOIN;
             _previousDisplay = _display;
-        }
-
-        private List<Coin> MakeChange(ref List<Coin> coins, decimal value)
-        {
-            List<Coin> change = new List<Coin>();
-            if (value > 0 && coins.Count > 0)
-            {
-                while (value >= 0.05m)
-                {
-                    List<Coin> coinList = coins.Where(x => x.coinValue <= value).OrderByDescending(x => x.coinValue).ToList();
-                    var coin = coinList.First();
-                    if (coin.coinValue <= value)
-                    {
-                        change.Add(coin);
-                        coins.Remove(coin);
-                        value -= coin.coinValue;
-                    }
-                }
-            }
-            return change;
         }
     }
 }

@@ -1,8 +1,5 @@
-using System;
 using Xunit;
 using VendingMachines;
-using System.Collections.Generic;
-
 
 namespace VendingMachineTests
 {
@@ -98,14 +95,14 @@ namespace VendingMachineTests
         [Fact]
         public void SelectACoke()
         {
-            _vending.SelectProduct(VendingMachine.COLA);
-            Assert.Equal(VendingMachine.COLA, _vending.selectedProduct.name);
+            _vending.SelectProduct(ProductControl.COLA);
+            Assert.Equal(ProductControl.COLA, _vending.selectedProduct.name);
         }
 
         [Theory]
-        [InlineData(VendingMachine.CANDY)]
-        [InlineData(VendingMachine.CHIPS)]
-        [InlineData(VendingMachine.COLA)]
+        [InlineData(ProductControl.CANDY)]
+        [InlineData(ProductControl.CHIPS)]
+        [InlineData(ProductControl.COLA)]
         public void SelectAProduct(string product)
         {
             _vending.SelectProduct(product);
@@ -115,13 +112,13 @@ namespace VendingMachineTests
         [Fact]
         public void SelectACokeWithNotEnoughMoney_ReturnsFalse()
         {
-            Assert.False(_vending.SelectProduct(VendingMachine.COLA));
+            Assert.False(_vending.SelectProduct(ProductControl.COLA));
         }
 
         [Fact]
         public void SelectACokeWithNotEnoughMoney_DisplaysPrice()
         {
-            _vending.SelectProduct(VendingMachine.COLA);
+            _vending.SelectProduct(ProductControl.COLA);
             Assert.Equal("PRICE " + _vending.selectedProduct.price.ToString("C2"), _vending.display);
         }
 
@@ -132,7 +129,7 @@ namespace VendingMachineTests
             _vending.InsertCoin(_quarter);
             _vending.InsertCoin(_quarter);
             _vending.InsertCoin(_quarter);
-            Assert.True(_vending.SelectProduct(VendingMachine.COLA));
+            Assert.True(_vending.SelectProduct(ProductControl.COLA));
         }
 
         [Fact]
@@ -142,14 +139,14 @@ namespace VendingMachineTests
             _vending.InsertCoin(_quarter);
             _vending.InsertCoin(_quarter);
             _vending.InsertCoin(_quarter);
-            _vending.SelectProduct(VendingMachine.COLA);
+            _vending.SelectProduct(ProductControl.COLA);
             Assert.Equal(VendingMachine.THANKYOU, _vending.display);
         }
 
         [Fact]
         public void SelectACokeWithNoMoney_DisplaysInsertCoin()
         {
-            _vending.SelectProduct(VendingMachine.COLA);
+            _vending.SelectProduct(ProductControl.COLA);
             _vending.CheckDisplay();
             Assert.Equal(VendingMachine.INSERTCOIN, _vending.display);
         }
@@ -158,7 +155,7 @@ namespace VendingMachineTests
         public void SelectACokeWithNotEnoughMoney_DisplaysCurrentAmount()
         {
             _vending.InsertCoin(_quarter);
-            _vending.SelectProduct(VendingMachine.COLA);
+            _vending.SelectProduct(ProductControl.COLA);
             _vending.CheckDisplay();
             Assert.Equal(_quarter.coinValue.ToString("C2"), _vending.display);
         }
@@ -169,7 +166,7 @@ namespace VendingMachineTests
             _vending.InsertCoin(_quarter);
             _vending.InsertCoin(_quarter);
             _vending.InsertCoin(_quarter);
-            _vending.SelectProduct(VendingMachine.CHIPS);
+            _vending.SelectProduct(ProductControl.CHIPS);
             _vending.ReturnCoins();
             Assert.Equal(_quarter.coinValue, _vending.returnTotalValue);
         }
@@ -231,7 +228,7 @@ namespace VendingMachineTests
 
             for (int i = 0; i < 6; i++)
             {
-                _vending.SelectProduct(VendingMachine.COLA);
+                _vending.SelectProduct(ProductControl.COLA);
             }
             Assert.Equal(VendingMachine.SOLDOUT, _vending.display);
         }
@@ -246,7 +243,7 @@ namespace VendingMachineTests
 
             for (int i = 0; i < 6; i++)
             {
-                _vending.SelectProduct(VendingMachine.CANDY);
+                _vending.SelectProduct(ProductControl.CANDY);
             }
 
             _vending.CheckDisplay();

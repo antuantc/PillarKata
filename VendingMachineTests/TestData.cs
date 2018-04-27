@@ -1,7 +1,5 @@
-﻿using System;
-using System.Collections;
+﻿using System.Collections;
 using System.Collections.Generic;
-using System.Text;
 using VendingMachines;
 
 namespace VendingMachineTests
@@ -45,7 +43,7 @@ namespace VendingMachineTests
                 _quarter,
                 _quarter,
                 _quarter,
-                VendingMachine.CANDY
+                ProductControl.CANDY
             };
         }
 
