@@ -9,6 +9,15 @@ namespace VendingMachineTests
     public class VendingMachineUnitTests
     {
         private VendingMachine _vending;
+        private static Coin _penny = new Coin();
+        private static Coin _nickel = new Coin(5.0, 21.21);
+        private static Coin _dime = new Coin(2.268, 17.91);
+        private static Coin _quarter = new Coin(5.67, 24.26);
+        private static Coin _halfDollar = new Coin(11.34, 30.61);
+        private static Coin _dollar = new Coin(8.1, 26.49);
+
+        private static Coin[] validCoins = { _nickel, _dime, _quarter };
+        private static Coin[] inValidCoins = { _penny, _halfDollar, _dollar };
 
         public VendingMachineUnitTests()
         {
@@ -18,114 +27,78 @@ namespace VendingMachineTests
         [Fact]
         public void AcceptADimeAsAValidCoin()
         {
-            //arrange
-            var coin = Coin.Dime;
-
-            //act
-            var accept = _vending.InsertCoin(coin);
-
-            //assert
-            Assert.True(accept);
-        }
-
-        [Fact]
-        public void AcceptAPennyAsAnInValidCoin()
-        {
-            //arrange
-            var coin = Coin.Penny;
-
-            //act
-            var accept = _vending.InsertCoin(coin);
-
-            //assert
-            Assert.False(accept);
+            Assert.True(_vending.InsertCoin(_dime));
         }
 
         [Fact]
         public void AcceptValidCoins()
         {
-            //arrange
-            var coin1 = Coin.Nickle;
-            var coin2 = Coin.Dime;
-            var coin3 = Coin.Quarter;
-
-            //act
-            var accept = _vending.InsertCoin(coin1) && _vending.InsertCoin(coin2) && _vending.InsertCoin(coin3);
-
-            //assert
+            var accept = _vending.InsertCoin(_nickel) && _vending.InsertCoin(_dime) && _vending.InsertCoin(_quarter);
             Assert.True(accept);
         }
 
         [Theory]
-        [InlineData(Coin.Nickle)]
-        [InlineData(Coin.Dime)]
-        [InlineData(Coin.Quarter)]
-        public void ReturnTrueGivenValidCoins(Coin coin)
+        [MemberData(nameof(TestDataGenerator.GetValidCoinsFromDataGenerator), MemberType = typeof(TestDataGenerator))]
+        public void AcceptValidCoins(Coin coin1, Coin coin2, Coin coin3)
         {
-            Assert.True(_vending.InsertCoin(coin));
+            Assert.True(_vending.InsertCoin(coin1));
+            Assert.True(_vending.InsertCoin(coin2));
+            Assert.True(_vending.InsertCoin(coin3));
+        }
+
+        [Fact]
+        public void AcceptAPennyAsAnInValidCoin()
+        {
+            var accept = _vending.InsertCoin(_penny);
+            Assert.False(accept);
+        }
+
+        [Fact]
+        public void DoNotAcceptInValidCoins()
+        {
+            var accept = _vending.InsertCoin(_penny) || _vending.InsertCoin(_halfDollar) || _vending.InsertCoin(_dollar);
+            Assert.False(accept);
         }
 
         [Theory]
-        [InlineData(Coin.None)]
-        [InlineData(Coin.Penny)]
-        public void ReturnFalseGivenInValidCoins(Coin coin)
+        [MemberData(nameof(TestDataGenerator.GetInValidCoinsFromDataGenerator), MemberType = typeof(TestDataGenerator))]
+        public void DoNotAcceptInValidCoins(Coin coin1, Coin coin2, Coin coin3)
         {
-            Assert.False(_vending.InsertCoin(coin));
+            Assert.False(_vending.InsertCoin(coin1));
+            Assert.False(_vending.InsertCoin(coin2));
+            Assert.False(_vending.InsertCoin(coin3));
         }
 
         [Fact]
         public void Insert75CentTotal()
         {
-            //arrrange
-
-            //act
-            _vending.InsertCoin(Coin.Quarter);
-            _vending.InsertCoin(Coin.Quarter);
-            _vending.InsertCoin(Coin.Quarter);
-
-            //assert
-            Assert.Equal(75, _vending.totalValue);
+            _vending.InsertCoin(_quarter);
+            _vending.InsertCoin(_quarter);
+            _vending.InsertCoin(_quarter);
+            Assert.Equal(.75m, _vending.totalValue);
         }
 
         [Fact]
         public void DisplayInsertCoin()
         {
-            //arrrange
-
-            //act
-
-            //assert
-            Assert.Equal(VendingMachine.CONST_INSERTCOIN, _vending.display);
+            Assert.Equal(VendingMachine.INSERTCOIN, _vending.display);
         }
 
         [Theory]
-        [InlineData(new Coin[] { Coin.Dime, Coin.Nickle })]
-        [InlineData(new Coin[] { Coin.Dime, Coin.Nickle, Coin.Quarter })]
-        public void DisplayTotalInsertedCoins(Coin [] coins)
+        [MemberData(nameof(TestDataGenerator.GetValidCoinsFromDataGenerator), MemberType = typeof(TestDataGenerator))]
+        public void DisplayTotalInsertedCoins(Coin coin1, Coin coin2, Coin coin3)
         {
-            //arrrange
-            int total = 0;
-
-            //act
-            foreach(Coin coin in coins)
-            {
-                _vending.InsertCoin(coin);
-                total += (int)coin;
-            }
-
-            //assert
-            Assert.Equal((total / 100m).ToString("C2"),_vending.display);
+            _vending.InsertCoin(coin1);
+            _vending.InsertCoin(coin2);
+            _vending.InsertCoin(coin3);
+            decimal total = coin1.coinValue + coin2.coinValue + coin3.coinValue;
+            Assert.Equal(total.ToString("C2"), _vending.display);
         }
 
         [Fact]
         public void SelectACoke()
         {
-            //arrrange
-
-            //act
             _vending.SelectProduct(Product.Cola);
-
-            //assert
             Assert.Equal("Cola", _vending.selectedProduct.ToString());
         }
 
@@ -137,212 +110,139 @@ namespace VendingMachineTests
         public void SelectAProduct(Product product)
         {
             _vending.SelectProduct(product);
-
             Assert.Equal(product, _vending.selectedProduct);
         }
 
         [Fact]
         public void SelectACokeWithNotEnoughMoney_ReturnsFalse()
         {
-            //arrrange
-
-            //act
-            var select = _vending.SelectProduct(Product.Cola);
-
-            //assert
-            Assert.False(select);
+            Assert.False(_vending.SelectProduct(Product.Cola));
         }
 
         [Fact]
         public void SelectACokeWithNotEnoughMoney_DisplaysPrice()
         {
-            //arrrange
-
-            //act
-            var select = _vending.SelectProduct(Product.Cola);
-
-            //assert
+            _vending.SelectProduct(Product.Cola);
             Assert.Equal("PRICE " + ((int)Product.Cola / 100m).ToString("C2"), _vending.display);
         }
 
         [Fact]
         public void SelectACokeWithEnoughMoney_ReturnsTrue()
         {
-            //arrrange
-
-            //act
-            _vending.InsertCoin(Coin.Quarter);
-            _vending.InsertCoin(Coin.Quarter);
-            _vending.InsertCoin(Coin.Quarter);
-            _vending.InsertCoin(Coin.Quarter);
-            var select = _vending.SelectProduct(Product.Cola);
-
-            //assert
-            Assert.True(select);
+            _vending.InsertCoin(_quarter);
+            _vending.InsertCoin(_quarter);
+            _vending.InsertCoin(_quarter);
+            _vending.InsertCoin(_quarter);
+            Assert.True(_vending.SelectProduct(Product.Cola));
         }
 
         [Fact]
         public void SelectACokeWithEnoughMoney_DisplaysThankYou()
         {
-            //arrrange
-
-            //act
-            _vending.InsertCoin(Coin.Quarter);
-            _vending.InsertCoin(Coin.Quarter);
-            _vending.InsertCoin(Coin.Quarter);
-            _vending.InsertCoin(Coin.Quarter);
+            _vending.InsertCoin(_quarter);
+            _vending.InsertCoin(_quarter);
+            _vending.InsertCoin(_quarter);
+            _vending.InsertCoin(_quarter);
             _vending.SelectProduct(Product.Cola);
-
-            //assert
-            Assert.Equal(VendingMachine.CONST_THANKYOU, _vending.display);
+            Assert.Equal(VendingMachine.THANKYOU, _vending.display);
         }
 
         [Fact]
         public void SelectACokeWithNoMoney_DisplaysInsertCoin()
         {
-            //arrrange
-
-            //act
             _vending.SelectProduct(Product.Cola);
             _vending.CheckDisplay();
-
-            //assert
-            Assert.Equal(VendingMachine.CONST_INSERTCOIN, _vending.display);
+            Assert.Equal(VendingMachine.INSERTCOIN, _vending.display);
         }
 
         [Fact]
         public void SelectACokeWithNotEnoughMoney_DisplaysCurrentAmount()
         {
-            //arrrange
-
-            //act
-            _vending.InsertCoin(Coin.Quarter);
+            _vending.InsertCoin(_quarter);
             _vending.SelectProduct(Product.Cola);
             _vending.CheckDisplay();
-
-            //assert
-            Assert.Equal(((int)Coin.Quarter / 100m).ToString("C2"), _vending.display);
+            Assert.Equal(_quarter.coinValue.ToString("C2"), _vending.display);
         }
 
         [Fact]
         public void SelectAChipsWithMoreThanEnoughMoney_MakeCorrectChange()
         {
-            //arrrange
-
-            //act
-            _vending.InsertCoin(Coin.Quarter);
-            _vending.InsertCoin(Coin.Quarter);
-            _vending.InsertCoin(Coin.Quarter);
+            _vending.InsertCoin(_quarter);
+            _vending.InsertCoin(_quarter);
+            _vending.InsertCoin(_quarter);
             _vending.SelectProduct(Product.Chips);
             _vending.ReturnCoins();
-
-            //assert
-            Assert.Equal((int)Coin.Quarter, _vending.coinReturnValue);
+            Assert.Equal(_quarter.coinValue, _vending.returnTotalValue);
         }
 
         [Theory]
-        [InlineData(new Coin[] { Coin.Quarter, Coin.Quarter, Coin.Quarter }, Product.Candy)]
-        [InlineData(new Coin[] { Coin.Quarter, Coin.Quarter, Coin.Quarter }, Product.Chips)]
-        [InlineData(new Coin[] { Coin.Quarter, Coin.Quarter, Coin.Quarter, Coin.Quarter, Coin.Nickle }, Product.Candy)]
-        public void MakeCorrectChange(Coin [] coins, Product product)
+        [MemberData(nameof(TestDataGenerator.GetValidCoinsAndAProductFromDataGenerator), MemberType = typeof(TestDataGenerator))]
+        public void MakeCorrectChange(Coin coin1, Coin coin2, Coin coin3, Coin coin4, Coin coin5, Coin coin6, Product product)
         {
-            //arrrange
-            int total = 0;
-            int change = 0;
-
-            //act
-            foreach(Coin coin in coins)
-            {
-                _vending.InsertCoin(coin);
-                total += (int)coin;
-            }
-
+            decimal change = 0;
+            decimal total = coin1.coinValue + coin2.coinValue + coin3.coinValue + coin4.coinValue + coin5.coinValue + coin6.coinValue;
+            _vending.InsertCoin(coin1);
+            _vending.InsertCoin(coin2);
+            _vending.InsertCoin(coin3);
+            _vending.InsertCoin(coin4);
+            _vending.InsertCoin(coin5);
+            _vending.InsertCoin(coin6);
             _vending.SelectProduct(product);
             _vending.ReturnCoins();
 
-            change = total - (int)product;
-
-            //assert
-            Assert.Equal(change, _vending.coinReturnValue);
+            change = total - (decimal)(int)product / 100;
+            Assert.Equal(change, _vending.returnTotalValue);
         }
 
         [Fact]
         public void InsertAQuarterAndReturnTheQuarter()
         {
-            //arrrange
-
-            //act
-            _vending.InsertCoin(Coin.Quarter);
+            _vending.InsertCoin(_quarter);
             _vending.ReturnCoins();
-
-            //assert
-            Assert.Equal(25, _vending.coinReturnValue);
+            Assert.Equal(_quarter.coinValue, _vending.returnTotalValue);
         }
 
         [Fact]
         public void InsertAQuarterAndReturnTheQuarter_DisplaysInsertCoin()
         {
-            //arrrange
-
-            //act
-            _vending.InsertCoin(Coin.Quarter);
+            _vending.InsertCoin(_quarter);
             _vending.ReturnCoins();
-
-            //assert
-            Assert.Equal(VendingMachine.CONST_INSERTCOIN, _vending.display);
+            Assert.Equal(VendingMachine.INSERTCOIN, _vending.display);
         }
 
         [Theory]
-        [InlineData(new Coin[] { Coin.Quarter })]
-        [InlineData(new Coin[] { Coin.Quarter, Coin.Dime })]
-        [InlineData(new Coin[] { Coin.Quarter, Coin.Quarter, Coin.Nickle })]
-        [InlineData(new Coin[] { Coin.Quarter, Coin.Quarter, Coin.Quarter })]
-        public void InsertCoinsAndReturnTheCoins(Coin [] coins)
+        [MemberData(nameof(TestDataGenerator.GetValidCoinsFromDataGenerator), MemberType = typeof(TestDataGenerator))]
+        public void InsertCoinsAndReturnTheCoins(Coin coin1, Coin coin2, Coin coin3)
         {
-            //arrrange
-            int total = 0;
-
-            //act
-            foreach (Coin coin in coins)
-            {
-                _vending.InsertCoin(coin);
-                total += (int)coin;
-            }
+            _vending.InsertCoin(coin1);
+            _vending.InsertCoin(coin2);
+            _vending.InsertCoin(coin3);
             _vending.ReturnCoins();
-
-            //assert
-            Assert.Equal(total, _vending.coinReturnValue);
+            decimal total = coin1.coinValue + coin2.coinValue + coin3.coinValue;
+            Assert.Equal(total, _vending.returnTotalValue);
         }
 
         [Fact]
         public void SelectSoldOutProduct_DisplaysSoldOut()
         {
-            //arrrange
-
-            //act
             for (int i = 0; i < 30; i++)
             {
-                _vending.InsertCoin(Coin.Quarter);
+                _vending.InsertCoin(_quarter);
             }
 
             for (int i = 0; i < 6; i++)
             {
                 _vending.SelectProduct(Product.Candy);
             }
-
-            //assert
-            Assert.Equal(VendingMachine.CONST_SOLDOUT, _vending.display);
+            Assert.Equal(VendingMachine.SOLDOUT, _vending.display);
         }
 
         [Fact]
         public void SelectSoldOutProductCheckDisplayAgain_DisplaysTotal()
         {
-            //arrrange
-
-            //act
             for (int i = 0; i < 30; i++)
             {
-                _vending.InsertCoin(Coin.Quarter);
+                _vending.InsertCoin(_quarter);
             }
 
             for (int i = 0; i < 6; i++)
@@ -352,8 +252,7 @@ namespace VendingMachineTests
 
             _vending.CheckDisplay();
 
-            //assert
-            Assert.Equal((_vending.totalValue / 100m).ToString("C2"), _vending.display);
+            Assert.Equal(_vending.totalValue.ToString("C2"), _vending.display);
         }
     }
 }
